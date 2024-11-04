@@ -14,6 +14,10 @@ export default function Home() {
           priority
         />
         <ol>
+          <li>Hello There !</li>
+          <li>
+            <b>This is the Home Page</b>
+          </li>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
           </li>
