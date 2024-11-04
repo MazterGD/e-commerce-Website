@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <h1>hguggu</h1>
+        <h1>This is the main file header</h1>
         {children}
       </body>
     </html>
