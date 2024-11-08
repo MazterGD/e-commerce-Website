@@ -1,3 +1,4 @@
+import '@mantine/core/styles.css';
 import { Button, Text } from '@mantine/core';
 
 export default function productPage() {
