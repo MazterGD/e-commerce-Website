@@ -5,7 +5,6 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import Navbar from "./components/Navbar";
 import { Button } from "@mantine/core";
-import Gallery from "./components/Gallery";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +32,6 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
           <Navbar />
-          <Gallery />
-          <Button component="a" href="#">
-            Hello, Mantine Button!
-          </Button>
           {children}
         </MantineProvider>
       </body>

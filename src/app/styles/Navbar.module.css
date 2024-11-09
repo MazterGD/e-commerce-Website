@@ -1,0 +1,8 @@
+.navbarButton:hover {
+    color: var(--mantine-color-yellow-7);
+    background-color: transparent;
+}
+
+.loginButton:hover {
+    border-color: var(--mantine-color-yellow-7);
+}

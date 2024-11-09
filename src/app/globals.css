@@ -14,6 +14,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  padding: 1vw;
 }
 
 body {
@@ -39,4 +40,20 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.card {
+  width: fit-content;
+  margin: 5px;
+  padding: 5px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #aaa;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.avatar {
+  margin: 20px;
+  border-radius: 50%;
 }
