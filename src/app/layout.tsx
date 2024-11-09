@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
-            
+          <Navbar />
           <Gallery />
           <Button component="a" href="#">
             Hello, Mantine Button!
