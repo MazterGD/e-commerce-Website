@@ -1,43 +1,59 @@
-import { ReactNode } from "react";
 import { SimpleGrid } from "@mantine/core";
 import FeaturesCard from "./FeaturesCard";
-
-interface CardProps {
-  children: ReactNode;
-}
-
-function Card({ children }: CardProps) {
-  return <div className="card">{children}</div>;
-}
-
-export function Profile() {
-  return (
-    <Card>
-      <img
-        src="https://i.imgur.com/QIrZWGIs.jpg"
-        alt="Alan L. Hart"
-        className="avatar"
-      />
-      <br />
-      <b>Product Name</b>
-      <p>Category</p>
-      <p>Price</p>
-    </Card>
-  );
-}
 
 export default function Gallery() {
   return (
     <section>
       <h1>Products</h1>
-      <SimpleGrid cols={5} spacing="xs">
-        <FeaturesCard />
-        <FeaturesCard />
-        <FeaturesCard />
-        <FeaturesCard />
-        <FeaturesCard />
-        <Profile />
-        <Profile />
+      <SimpleGrid cols={5} spacing="xl">
+        <FeaturesCard
+          product={{
+            name: "Tesla Model S",
+            description: "Free recharge at any station",
+            discount: 25,
+            price: 168.00
+          }}
+        />
+        <FeaturesCard product={{
+            name: "Axiata",
+            description: "Lorem Ipsem",
+            discount: 50,
+            price: 10500.00
+          }}/>
+        <FeaturesCard product={{
+            name: "Nishith",
+            description: "Pinnawala ali anathagaraya",
+            discount: 100,
+            price: 10.50
+          }}/>
+        <FeaturesCard product={{
+            name: "Suchi",
+            description: "Rainbow loving marketing wizard with a sweet cute voice",
+            discount: 5,
+            price: 5000
+          }}/>
+        <FeaturesCard product={{
+            name: "Bhagya Ranasinghe",
+            description: "Free recharge at any station",
+            discount: 7.5,
+            price: 500.00
+          }}/>
+        <FeaturesCard
+          product={{
+            name: "Tesla Model S",
+            description: "Free recharge at any station",
+            discount: 25,
+            price: 168.00
+          }}
+        />
+        <FeaturesCard
+          product={{
+            name: "Tesla Model S",
+            description: "Free recharge at any station",
+            discount: 25,
+            price: 168.00
+          }}
+        />
       </SimpleGrid>
     </section>
   );

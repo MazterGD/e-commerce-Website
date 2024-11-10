@@ -1,17 +1,33 @@
 "use client";
 
-import { Card, Image, Text, Group, Badge, Center, Button } from '@mantine/core';
-import { IconGasStation, IconGauge, IconManualGearbox, IconUsers } from '@tabler/icons-react';
-import classes from '../styles/FeaturesCard.module.css';
+import { Card, Image, Text, Group, Badge, Center, Button } from "@mantine/core";
+import {
+  IconGasStation,
+  IconGauge,
+  IconManualGearbox,
+  IconUsers,
+} from "@tabler/icons-react";
+import classes from "../styles/FeaturesCard.module.css";
+
+interface Product {
+  name: string;
+  description: string;
+  discount: number;
+  price: number;
+}
+
+interface FeaturesCardProps {
+  product: Product;
+}
 
 const mockdata = [
-  { label: '4 passengers', icon: IconUsers },
-  { label: '100 km/h in 4 seconds', icon: IconGauge },
-  { label: 'Automatic gearbox', icon: IconManualGearbox },
-  { label: 'Electric', icon: IconGasStation },
+  { label: "4 passengers", icon: IconUsers },
+  { label: "100 km/h in 4 seconds", icon: IconGauge },
+  { label: "Automatic gearbox", icon: IconManualGearbox },
+  { label: "Electric", icon: IconGasStation },
 ];
 
-export default function FeaturesCard() {
+export default function FeaturesCard({ product }: FeaturesCardProps) {
   const features = mockdata.map((feature) => (
     <Center key={feature.label}>
       <feature.icon size="1.05rem" className={classes.icon} stroke={1.5} />
@@ -22,17 +38,17 @@ export default function FeaturesCard() {
   return (
     <Card withBorder radius="md" className={classes.card}>
       <Card.Section className={classes.imageSection}>
-        <Image src="https://i.imgur.com/ZL52Q2D.png" alt="Tesla Model S" />
+        <Image src="https://i.imgur.com/ZL52Q2D.png" alt={product.name} />
       </Card.Section>
 
       <Group justify="space-between" mt="md">
         <div>
-          <Text fw={500}>Tesla Model S</Text>
+          <Text fw={500}>{product.name}</Text>
           <Text fz="xs" c="dimmed">
-            Free recharge at any station
+            {product.description}
           </Text>
         </div>
-        <Badge variant="outline">25% off</Badge>
+        <Badge variant="outline">{product.discount}% off</Badge>
       </Group>
 
       <Card.Section className={classes.section} mt="md">
@@ -45,11 +61,11 @@ export default function FeaturesCard() {
         </Group>
       </Card.Section>
 
-      <Card.Section className={classes.section}>
+      <Card.Section className={`${classes.section} ${classes.priceSection}`}>
         <Group gap={30}>
           <div>
             <Text fz="xl" fw={700} style={{ lineHeight: 1 }}>
-              $168.00
+              ${product.price}
             </Text>
             <Text fz="sm" c="dimmed" fw={500} style={{ lineHeight: 1 }} mt={3}>
               per day
