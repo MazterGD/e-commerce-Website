@@ -15,26 +15,26 @@ export default function Gallery() {
           }}
         />
         <FeaturesCard product={{
-            name: "Axiata",
+            name: "Batmobile",
             description: "Lorem Ipsem",
             discount: 50,
             price: 10500.00
           }}/>
         <FeaturesCard product={{
-            name: "Nishith",
-            description: "Pinnawala ali anathagaraya",
+            name: "Product 03",
+            description: "Description 03",
             discount: 100,
             price: 10.50
           }}/>
         <FeaturesCard product={{
-            name: "Suchi",
-            description: "Rainbow loving marketing wizard with a sweet cute voice",
+            name: "Product 04",
+            description: "Description 04 - lorem ipsum blah blah blah blah long text paragraph to check apperance",
             discount: 5,
             price: 5000
           }}/>
         <FeaturesCard product={{
-            name: "Bhagya Ranasinghe",
-            description: "Free recharge at any station",
+            name: "Product 05",
+            description: "Description 05",
             discount: 7.5,
             price: 500.00
           }}/>
