@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { SimpleGrid } from "@mantine/core";
+import FeaturesCard from "./FeaturesCard";
 
 interface CardProps {
   children: ReactNode;
@@ -30,11 +31,11 @@ export default function Gallery() {
     <section>
       <h1>Products</h1>
       <SimpleGrid cols={5} spacing="xs">
-        <Profile />
-        <Profile />
-        <Profile />
-        <Profile />
-        <Profile />
+        <FeaturesCard />
+        <FeaturesCard />
+        <FeaturesCard />
+        <FeaturesCard />
+        <FeaturesCard />
         <Profile />
         <Profile />
       </SimpleGrid>
