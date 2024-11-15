@@ -57,3 +57,18 @@ a {
   margin: 20px;
   border-radius: 50%;
 }
+
+.link {
+  text-decoration: none;
+  color: var(--mantine-color-blue-1);
+  font-weight: bold;
+}
+
+.link:hover {
+  color: cornflowerblue;
+}
+
+.link.active {
+  color: cornflowerblue;
+  font-weight: bold;
+}

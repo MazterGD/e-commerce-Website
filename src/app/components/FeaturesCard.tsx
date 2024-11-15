@@ -38,7 +38,7 @@ export default function FeaturesCard({ product }: FeaturesCardProps) {
   return (
     <Card withBorder radius="md" className={classes.card}>
       <Card.Section className={classes.imageSection}>
-        <Image src="https://i.imgur.com/ZL52Q2D.png" alt={product.name} />
+        <Image src="https://www.motortrend.com/files/6722a1e0334df100089b6261/bruce-wayne-x-batman-tumbler-7.jpg?w=768&width=768&q=75&format=webp" alt={product.name} />
       </Card.Section>
 
       <Group justify="space-between" mt="md">

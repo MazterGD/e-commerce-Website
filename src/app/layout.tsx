@@ -3,8 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import { Button } from "@mantine/core";
+import { NavLinks } from '@/app/components/Navbar'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +32,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
-          <Navbar />
+          <NavLinks/>
+          {/* <Navbar /> */}
           {children}
         </MantineProvider>
       </body>
