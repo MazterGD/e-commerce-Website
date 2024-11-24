@@ -3,7 +3,7 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -60,7 +60,7 @@ a {
 
 .link {
   text-decoration: none;
-  color: var(--mantine-color-blue-1);
+  color: var(--mantine-color-gray-6);
   font-weight: bold;
 }
 
