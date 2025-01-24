@@ -5,7 +5,8 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 // import Navbar from "./components/Navbar";
 import { Button } from "@mantine/core";
-import { NavLinks } from '@/app/components/Navbar'
+import { NavLinks } from "@/app/components/Navbar";
+import { AuthProvider } from "./AuthProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,14 +30,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MantineProvider>
-          <NavLinks/>
-          {/* <Navbar /> */}
-          {children}
-        </MantineProvider>
-      </body>
-    </html>
+    // <AuthProvider>
+      <html lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <MantineProvider>
+            <NavLinks />
+            {/* <Navbar /> */}
+            {children}
+          </MantineProvider>
+        </body>
+      </html>
+    // </AuthProvider>
   );
 }

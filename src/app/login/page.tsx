@@ -55,7 +55,7 @@ export default function LoginPage() {
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Don't have an account yet?{" "}
         <Link href="/signup" passHref>
-          <Anchor size="sm" component="a">
+          <Anchor size="sm">
             Create account
           </Anchor>
         </Link>

@@ -61,7 +61,7 @@ export default function SignupPage() {
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{" "}
         <Link href="/login" passHref>
-          <Anchor size="sm" component="a">
+          <Anchor size="sm">
             Login
           </Anchor>
         </Link>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Stepper, Button, Group, Title } from "@mantine/core";
 import ProfileSettingsPage from "../components/ProfileDetails";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Demo() {
   const [active, setActive] = useState(0);
@@ -10,6 +11,9 @@ export default function Demo() {
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
+  const { accessToken, getAccessToken } = useKindeBrowserClient();
+  const aTok = getAccessToken();
+  console.log(accessToken, aTok);
 
   return (
     <>

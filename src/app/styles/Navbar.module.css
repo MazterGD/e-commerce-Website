@@ -1,5 +1,6 @@
 .navbarButton {
   color: var(--mantine-color-gray-6);
+  margin: 1vw;
 }
 
 .navbarButton:hover {
@@ -12,5 +13,17 @@
 }
 
 .loginButton:hover {
+  color: white;
+  background-color: var(--mantine-color-blue-9);
+}
+
+.signinButton {
+  color: cornflowerblue;
+  background-color: transparent;
   border-color: cornflowerblue;
+}
+
+.signinButton:hover {
+  color: var(--mantine-color-blue-9);
+  border-color: var(--mantine-color-blue-9);
 }

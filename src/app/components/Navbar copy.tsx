@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -12,29 +12,26 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-export async function NavLinks() {
-  // const pathname = usePathname();
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-  console.log(user);
+export function NavLinks() {
+  const pathname = usePathname();
+  // const { getUser } = getKindeServerSession();
+  // const user = getUser();
+  // console.log(user);
 
   return (
     <nav>
       <Group justify="flex-end" gap="xl">
-        <Link
-          // className={`link ${pathname === "/" ? "active" : ""}`}
-          href="/"
-        >
+        <Link className={`link ${pathname === "/" ? "active" : ""}`} href="/">
           Home
         </Link>
         <Link
-          // className={`link ${pathname === "/product" ? "active" : ""}`}
+          className={`link ${pathname === "/product" ? "active" : ""}`}
           href="/product"
         >
           Product
         </Link>
         <Link
-          // className={`link ${pathname === "/settings" ? "active" : ""}`}
+          className={`link ${pathname === "/settings" ? "active" : ""}`}
           href="/settings"
         >
           Settings
@@ -53,34 +50,18 @@ export async function NavLinks() {
         >
           Login
         </Button> */}
-        {user ? (
-          <LogoutLink>
-            <Button className={`${styles.navbarButton} ${styles.loginButton}`}>
-              Logout
-            </Button>
-          </LogoutLink>
+        {/* {user ? (
+          <LogoutLink>LogOut</LogoutLink>
         ) : (
           <div>
-            <LoginLink>
-              <Button
-                className={`${styles.navbarButton} ${styles.loginButton}`}
-              >
-                Sign In
-              </Button>
-            </LoginLink>
-            <RegisterLink>
-              <Button
-                className={`${styles.navbarButton} ${styles.signinButton}`}
-              >
-                Sign up
-              </Button>
-            </RegisterLink>
+            <LoginLink>Sign in</LoginLink>
+            <RegisterLink>Sign up</RegisterLink>
           </div>
-        )}
+        )} */}
 
-        {/* <LoginLink>Sign in</LoginLink>
+        <LoginLink>Sign in</LoginLink>
         <RegisterLink>Sign up</RegisterLink>
-        <LogoutLink>LogOut</LogoutLink> */}
+        <LogoutLink>LogOut</LogoutLink>
       </Group>
     </nav>
   );
