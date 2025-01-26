@@ -22,20 +22,6 @@ import {
 import { useForm } from "@mantine/form";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { prisma } from "../lib/prisma";
-
-async function getData(userId:string) {
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
-      first_name: true,
-      email: true,
-
-    }
-  })
-}
 
 export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
   const [isLoading, setIsLoading] = useState(false);
