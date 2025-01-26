@@ -4,21 +4,21 @@ import { InputLabel } from "@mantine/core"
 import { prisma } from "../lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-async function getData(userId:string) {
-  const data = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
-      first_name: true,
-      last_name: true,
-      email: true,
-      profile_image: true
-    }
-  })
-}
+// async function getData(userId:string) {
+//   const data = await prisma.user.findUnique({
+//     where: {
+//       id: userId,
+//     },
+//     select: {
+//       first_name: true,
+//       last_name: true,
+//       email: true,
+//       profile_image: true
+//     }
+//   })
+// }
 
-export default async function SimpleForm() {
+export default function SimpleForm() {
   // const { getUser } = getKindeServerSession();
   // const user = await getUser();
   // const data = await getData(user.id as string);
