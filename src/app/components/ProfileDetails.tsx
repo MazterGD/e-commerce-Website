@@ -22,6 +22,20 @@ import {
 import { useForm } from "@mantine/form";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { prisma } from "../lib/prisma";
+
+async function getData(userId:string) {
+  const data = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      first_name: true,
+      email: true,
+
+    }
+  })
+}
 
 export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,15 +50,15 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
       gender: "",
       aiesecEmail: "",
       personalEmail: "",
-      photo: "",
+      // photo: "",
       lc: "",
       country: "",
       role: "",
-      currentPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
-      receiveNewsletters: true,
-      allowNotifications: false,
+      // currentPassword: "",
+      // newPassword: "",
+      // confirmNewPassword: "",
+      // receiveNewsletters: true,
+      // allowNotifications: false,
     },
     validate: {
       firstName: (value) =>
@@ -59,12 +73,12 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
         value.length < 2 ? "Name must have at least 2 characters" : null,
       country: (value) =>
         value.length < 2 ? "Name must have at least 2 characters" : null,
-      newPassword: (value) =>
-        value && value.length < 8
-          ? "Password must be at least 8 characters"
-          : null,
-      confirmNewPassword: (value, values) =>
-        value !== values.newPassword ? "Passwords do not match" : null,
+      // newPassword: (value) =>
+      //   value && value.length < 8
+      //     ? "Password must be at least 8 characters"
+      //     : null,
+      // confirmNewPassword: (value, values) =>
+      //   value !== values.newPassword ? "Passwords do not match" : null,
     },
   });
 
@@ -124,7 +138,7 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
               required
               {...form.getInputProps("personalEmail")}
             />
-            <p>Picture</p>
+            {/* <p>Picture</p>
             <Dropzone
               onDrop={(files) => console.log("accepted files", files)}
               onReject={(files) => console.log("rejected files", files)}
@@ -179,7 +193,7 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
                   </Text>
                 </div>
               </Group>
-            </Dropzone>
+            </Dropzone> */}
             <NativeSelect
               value={countryValue}
               onChange={(event) => setCountryValue(event.currentTarget.value)}
@@ -206,7 +220,7 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
               label="Role in AIESEC"
               data={["Select Role", "MCP", "MCVP", "LCP", "LCVP", "Other"]}
             />
-            <Textarea
+            {/* <Textarea
               placeholder="Your Expectations from IC 2025"
               label="Expectations"
               autosize
@@ -258,7 +272,7 @@ export default function ProfileSettingsPage(props: Partial<DropzoneProps>) {
               {...form.getInputProps("allowNotifications", {
                 type: "checkbox",
               })}
-            />
+            /> */}
 
             <Group mt="xl">
               <Button variant="outline" onClick={form.reset}>

@@ -22,17 +22,18 @@ async function getData({
     },
     select: {
       id: true,
-      stripeCustomerId: true,
     },
   });
 
   if (!user) {
-    const name = `${firstName ?? ""} ${lastName ?? ""}`;
+    // const name = `${firstName ?? ""} ${lastName ?? ""}`;
     await prisma.user.create({
       data: {
         id: id,
         email: email,
-        name: name,
+        first_name: firstName,
+        last_name: lastName,
+        profile_image: profileImage,
       },
     });
   }
@@ -45,13 +46,15 @@ export default async function SettingsLayout({
 }>) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  await getData({
-    email: user.email as string,
-    firstName: user.given_name as string,
-    id: user.id as string,
-    lastName: user.family_name as string,
-    profileImage: user.picture,
-  });
+  if (user) {
+    await getData({
+      email: user.email as string,
+      firstName: user.given_name as string,
+      id: user.id as string,
+      lastName: user.family_name as string,
+      profileImage: user.picture,
+    });
+  }
 
   return (
     <html lang="en">

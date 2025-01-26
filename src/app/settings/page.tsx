@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Stepper, Button, Group, Title } from "@mantine/core";
-import ProfileSettingsPage from "../components/ProfileDetails";
+import SimpleForm from "../components/SimpleForm";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Demo() {
@@ -22,7 +22,7 @@ export default function Demo() {
           <Title order={2} mb="xl">
             Step 1 : Complete Profile Details
           </Title>
-          <ProfileSettingsPage />
+          <SimpleForm />
         </Stepper.Step>
         <Stepper.Step label="Second step" description="MCP Approval">
           <Title order={2} mb="xl">
