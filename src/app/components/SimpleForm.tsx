@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@mantine/core";
 import { Input } from "@mantine/core";
 import { InputLabel } from "@mantine/core";
-import { getKindeUser } from "../lib/kindeAuth";
 import { createClient } from "@supabase/supabase-js";
+import { getKindeUser } from "../lib/kindeAuth";
 import { useRouter } from "next/navigation";
+import { fetchUserDetails } from "../lib/fetchUserDetails";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,8 +26,13 @@ export default function SimpleForm() {
     if (user) {
       setUser(user);
       if (!hasFetched) {
-        fetchUserDetails(user.id);
-        setHasFetched(true); // ✅ Mark as fetched to prevent duplicate calls
+        fetchUserDetails(user.id).then((userDetails) => {
+          if (userDetails) {
+            setFirstName(userDetails.first_name || "");
+            setLastName(userDetails.last_name || "");
+          }
+          setHasFetched(true);
+        });
       }
       console.log("User Given Name:", user.given_name);
     } else {
@@ -34,21 +40,20 @@ export default function SimpleForm() {
     }
   });
 
-  // Fetch first & last name from Supabase
-  const fetchUserDetails = async (userId: string) => {
-    const { data, error } = await supabase
-      .from("User")
-      .select("first_name, last_name")
-      .eq("id", userId)
-      .single();
+  // const fetchUserDetails = async (userId: string) => {
+  //   const { data, error } = await supabase
+  //     .from("User")
+  //     .select("first_name, last_name")
+  //     .eq("id", userId)
+  //     .single();
 
-    if (error) {
-      console.error("Error fetching user details:", error.message);
-    } else {
-      setFirstName(data.first_name || ""); // Default to empty string if null
-      setLastName(data.last_name || "");
-    }
-  };
+  //   if (error) {
+  //     console.error("Error fetching user details:", error.message);
+  //   } else {
+  //     setFirstName(data.first_name || ""); // Default to empty string if null
+  //     setLastName(data.last_name || "");
+  //   }
+  // };
 
   // const handleSubmit = async (event: React.FormEvent) => {
   //   event.preventDefault();
@@ -92,7 +97,7 @@ export default function SimpleForm() {
     } else {
       console.log("Data inserted successfully:", data);
       setFirstName(""); // Reset form on success
-      setHasFetched(false)
+      setHasFetched(false);
       router.refresh();
     }
 
