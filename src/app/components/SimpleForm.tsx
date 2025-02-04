@@ -5,6 +5,7 @@ import { Input } from "@mantine/core";
 import { InputLabel } from "@mantine/core";
 import { getKindeUser } from "../lib/kindeAuth";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,27 +14,63 @@ const supabase = createClient(
 
 export default function SimpleForm() {
   const [expectation, setExpectation] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   getKindeUser().then((user) => {
     if (user) {
       setUser(user);
+      if (!hasFetched) {
+        fetchUserDetails(user.id);
+        setHasFetched(true); // ✅ Mark as fetched to prevent duplicate calls
+      }
       console.log("User Given Name:", user.given_name);
     } else {
       console.log("No user found");
     }
   });
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const firstName = formData.get("firstName");
-  //   const lastName = formData.get("lastName");
-  //   const email = formData.get("email");
+  // Fetch first & last name from Supabase
+  const fetchUserDetails = async (userId: string) => {
+    const { data, error } = await supabase
+      .from("User")
+      .select("first_name, last_name")
+      .eq("id", userId)
+      .single();
 
-  //   console.log("Form submitted:", { firstName, lastName, email });
-  //   // Here you would typically send this data to an API or perform some other action
+    if (error) {
+      console.error("Error fetching user details:", error.message);
+    } else {
+      setFirstName(data.first_name || ""); // Default to empty string if null
+      setLastName(data.last_name || "");
+    }
+  };
+
+  // const handleSubmit = async (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   if (!user) {
+  //     console.error("User ID not found. Ensure the user is authenticated.");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+
+  //   const { data, error } = await supabase
+  //     .from("User_Details")
+  //     .insert([{ id: user.id, expectation }]);
+
+  //   if (error) {
+  //     console.error("Error inserting data:", error.message);
+  //   } else {
+  //     console.log("Data inserted successfully:", data);
+  //     setExpectation(""); // Reset form on success
+  //   }
+
+  //   setLoading(false);
   // };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -46,14 +83,17 @@ export default function SimpleForm() {
     setLoading(true);
 
     const { data, error } = await supabase
-      .from("User_Details")
-      .insert([{ id: user.id, expectation }]);
+      .from("User")
+      .update({ first_name: firstName, last_name: lastName })
+      .eq("id", user.id);
 
     if (error) {
       console.error("Error inserting data:", error.message);
     } else {
       console.log("Data inserted successfully:", data);
-      setExpectation(""); // Reset form on success
+      setFirstName(""); // Reset form on success
+      setHasFetched(false)
+      router.refresh();
     }
 
     setLoading(false);
@@ -65,20 +105,32 @@ export default function SimpleForm() {
       className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
     >
       <div>
-        <h1>Welcome, {user?.given_name || "Guest"}!</h1>
+        <h1>Welcome, {firstName || "Guest"}!</h1>
       </div>
-      {/* <div className="space-y-2">
+      <div className="space-y-2">
         <InputLabel htmlFor="firstName">First Name</InputLabel>
-        <Input id="firstName" name="firstName" required placeholder={user?.given_name} />
+        <Input
+          id="firstName"
+          name="firstName"
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+          value={firstName}
+        />
       </div>
       <div className="space-y-2">
         <InputLabel htmlFor="lastName">Last Name</InputLabel>
-        <Input id="lastName" name="lastName" required placeholder={user?.family_name} />
+        <Input
+          id="lastName"
+          name="lastName"
+          onChange={(e) => setLastName(e.target.value)}
+          required
+          value={lastName}
+        />
       </div>
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <InputLabel htmlFor="email">Email</InputLabel>
-        <Input id="email" name="email" type="email" required placeholder={user?.email} />
-      </div> */}
+        <Input id="email" name="email" type="email" required value={user?.email} />
+      </div>
       <div className="space-y-2">
         <InputLabel htmlFor="expectation">Expectation</InputLabel>
         <Input
@@ -88,9 +140,9 @@ export default function SimpleForm() {
           required
           placeholder="I want to ...."
         />
-      </div>
+      </div> */}
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Uploading..." : "Submit"}
+        {loading ? "Saving..." : "Submit"}
       </Button>
     </form>
   );
