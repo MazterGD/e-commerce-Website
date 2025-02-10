@@ -13,11 +13,14 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default function SimpleForm() {
+interface NewDataInputFormProps {
+  onSubmit: () => void;
+}
+
+export default function NewDataInputForm({ onSubmit }: NewDataInputFormProps) {
   const [expectation, setExpectation] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
@@ -40,29 +43,12 @@ export default function SimpleForm() {
     }
   });
 
-  // const fetchUserDetails = async (userId: string) => {
-  //   const { data, error } = await supabase
-  //     .from("User")
-  //     .select("first_name, last_name")
-  //     .eq("id", userId)
-  //     .single();
-
-  //   if (error) {
-  //     console.error("Error fetching user details:", error.message);
-  //   } else {
-  //     setFirstName(data.first_name || ""); // Default to empty string if null
-  //     setLastName(data.last_name || "");
-  //   }
-  // };
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
+  // const handleSubmit = async (event?: React.FormEvent) => {
+  //   if (event) event.preventDefault();
   //   if (!user) {
   //     console.error("User ID not found. Ensure the user is authenticated.");
   //     return;
   //   }
-
-  //   setLoading(true);
 
   //   const { data, error } = await supabase
   //     .from("User_Details")
@@ -72,7 +58,31 @@ export default function SimpleForm() {
   //     console.error("Error inserting data:", error.message);
   //   } else {
   //     console.log("Data inserted successfully:", data);
-  //     setExpectation(""); // Reset form on success
+  //     router.refresh();
+  //     onSubmit();
+  //   }
+  // };
+
+  // const handleSubmit = async (event?: React.FormEvent) => {
+  //   if (event) event.preventDefault();
+  //   if (!user) {
+  //     console.error("User ID not found. Ensure the user is authenticated.");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+
+  //   const { data, error } = await supabase
+  //     .from("User")
+  //     .update({ first_name: firstName, last_name: lastName })
+  //     .eq("id", user.id);
+
+  //   if (error) {
+  //     console.error("Error inserting data:", error.message);
+  //   } else {
+  //     console.log("Data inserted successfully:", data);
+  //     router.refresh();
+  //     onSubmit();
   //   }
 
   //   setLoading(false);
@@ -80,28 +90,47 @@ export default function SimpleForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!user) {
-      console.error("User ID not found. Ensure the user is authenticated.");
-      return;
+
+    try {
+      // check if an expectation already exists for the user
+      const { data, error: fetchError } = await supabase
+        .from("User_Details")
+        .select("id")
+        .eq("id", user.id)
+        .single(); // Expecting one record
+
+      if (fetchError && fetchError.code !== "PGRST116") {
+        console.error(
+          "Error checking existing expectation:",
+          fetchError.message
+        );
+        return;
+      }
+
+      let dbResponse;
+      if (data) {
+        // If a record exists, update it
+        dbResponse = await supabase
+          .from("User_Details")
+          .update({ expectation: expectation })
+          .eq("id", data.id);
+      } else {
+        // If no record exists, insert a new one
+        dbResponse = await supabase
+          .from("User_Details")
+          .insert([{ id: user.id, expectation }]);
+      }
+
+      if (dbResponse.error) {
+        console.error("Database operation failed:", dbResponse.error.message);
+        return;
+      }
+
+      console.log("Expectation saved successfully");
+      onSubmit();
+    } catch (err) {
+      console.error("Unexpected error:", err);
     }
-
-    setLoading(true);
-
-    const { data, error } = await supabase
-      .from("User")
-      .update({ first_name: firstName, last_name: lastName })
-      .eq("id", user.id);
-
-    if (error) {
-      console.error("Error inserting data:", error.message);
-    } else {
-      console.log("Data inserted successfully:", data);
-      setFirstName(""); // Reset form on success
-      setHasFetched(false);
-      router.refresh();
-    }
-
-    setLoading(false);
   };
 
   return (
@@ -110,31 +139,9 @@ export default function SimpleForm() {
       className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
     >
       <div>
-        <h1>Welcome, {firstName || "Guest"}!</h1>
-      </div>
-      <div className="space-y-2">
-        <InputLabel htmlFor="firstName">First Name</InputLabel>
-        <Input
-          id="firstName"
-          name="firstName"
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-          value={firstName}
-        />
-      </div>
-      <div className="space-y-2">
-        <InputLabel htmlFor="lastName">Last Name</InputLabel>
-        <Input
-          id="lastName"
-          name="lastName"
-          onChange={(e) => setLastName(e.target.value)}
-          required
-          value={lastName}
-        />
-      </div>
-      {/* <div className="space-y-2">
-        <InputLabel htmlFor="email">Email</InputLabel>
-        <Input id="email" name="email" type="email" required value={user?.email} />
+        <h1>
+          Welcome, {firstName || "Guest"} {lastName || ""}!
+        </h1>
       </div>
       <div className="space-y-2">
         <InputLabel htmlFor="expectation">Expectation</InputLabel>
@@ -145,10 +152,7 @@ export default function SimpleForm() {
           required
           placeholder="I want to ...."
         />
-      </div> */}
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : "Submit"}
-      </Button>
+      </div>
     </form>
   );
 }

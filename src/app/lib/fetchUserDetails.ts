@@ -12,7 +12,7 @@ export const fetchUserDetails = async (userId: string) => {
   const { data, error } = await supabase
     .from("User")
     .select("first_name, last_name")
-    .eq("id", userId)
+    .eq("user_id", userId)
     .single();
 
   if (error) {
