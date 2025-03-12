@@ -39,7 +39,7 @@ export async function NavLinks() {
         >
           Settings
         </Link>
-        <Link href="/booklet">Booklet</Link>
+        <Link href="/store">Store</Link>
         <Button
           className={styles.navbarButton}
           variant="subtle"

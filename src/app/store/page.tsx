@@ -18,6 +18,7 @@ import ProductGrid from "./components/ProductGrid";
 import type { Product } from "./types";
 import { mockProducts } from "./data/mockProducts";
 import { CartProvider } from "./hooks/useCart";
+import { supabaseClient } from "./utils/supabaseClient";
 
 export default function MerchStore() {
   const [opened, { toggle }] = useDisclosure();
@@ -33,13 +34,42 @@ export default function MerchStore() {
 
   // Simulate fetching products
   useEffect(() => {
-    // In a real app, you would fetch from an API
-    setTimeout(() => {
-      setProducts(mockProducts);
-      setFilteredProducts(mockProducts);
+    const fetchProducts = async () => {
+      setLoading(true);
+      const { data, error } = await supabaseClient.from("merch_item").select("*");
+  
+      if (error) {
+        console.error("Error fetching products:", error.message);
+      } else {
+        console.log("Fetched Data:", data);
+  
+        const formattedData = data.map((item) => ({
+          id: item.id,
+          name: item.merch_name,
+          description: item.merch_description,
+          price: Number(item.merch_price),
+          size: item.merch_size,
+          category: item.merch_category,
+          image: item.merch_picture || "/placeholder.svg",
+          popularity: Number(item.merch_popularity) || 0,
+          createdAt: item.created_at
+        }));
+  
+        setProducts(formattedData);
+        setFilteredProducts([...formattedData]);
+      }
       setLoading(false);
-    }, 800);
+    };
+  
+    fetchProducts();
   }, []);
+  
+  
+  // Log the updated state after it changes
+  useEffect(() => {
+    console.log("Updated products state:", products);
+  }, [products]);
+  
 
   // Filter and sort products
   useEffect(() => {
