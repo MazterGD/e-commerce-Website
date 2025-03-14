@@ -41,7 +41,7 @@ export default function Header({
   const router = useRouter();
 
   return (
-    <Flex h="100%" px="md" align="center" justify="space-between">
+    <Flex h="100%" px="md" align="center" justify="right">
       <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
       <TextInput
@@ -56,10 +56,6 @@ export default function Header({
       <Group>
         <ActionIcon variant="subtle" color="gray" size="lg">
           <IconHeart style={{ width: rem(22), height: rem(22) }} />
-        </ActionIcon>
-
-        <ActionIcon variant="subtle" color="gray" size="lg">
-          <IconUser style={{ width: rem(22), height: rem(22) }} />
         </ActionIcon>
 
         {isAdmin ? (
