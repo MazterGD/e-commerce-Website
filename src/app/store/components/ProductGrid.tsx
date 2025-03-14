@@ -9,9 +9,10 @@ interface ProductGridProps {
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
+  isAdmin: boolean
 }
 
-export default function ProductGrid({ products, currentPage, totalPages, onPageChange }: ProductGridProps) {
+export default function ProductGrid({ products, currentPage, totalPages, onPageChange, isAdmin }: ProductGridProps) {
   return (
     <Box>
       <SimpleGrid
@@ -21,7 +22,7 @@ export default function ProductGrid({ products, currentPage, totalPages, onPageC
         mb="xl"
       >
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} isAdmin={isAdmin}/>
         ))}
       </SimpleGrid>
 
